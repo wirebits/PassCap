@@ -1,4 +1,4 @@
-![PassCap](https://github.com/user-attachments/assets/19b51749-17ce-46d3-86b5-90b365088783)
+![PassCap](https://github.com/user-attachments/assets/3fe77a8a-95a9-4164-9bca-bffa92948257)
 
 # PassCap
 It captures the wifi password by using evil twin attack.
